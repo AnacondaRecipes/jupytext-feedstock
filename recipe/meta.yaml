@@ -13,29 +13,34 @@ build:
   number: 0
   entry_points:
     - jupytext = jupytext.cli:jupytext
-  noarch: python
-  script: BUILD_JUPYTERLAB_EXTENSION=1 {{ PYTHON }} -m pip install . --no-deps -vvv
+  skip: true # [py<36 or s390x]
+  script: BUILD_JUPYTERLAB_EXTENSION=1 {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
     - python
-    - nodejs
+    - nodejs 18.16.0
     - jupyter-packaging
     - jupyterlab >=3.0,<4.0
+    - setuptools
+    - wheel
   run:
-    - python >=3.6
+    - python
     - nbformat
     - pyyaml
     - toml
-    - markdown-it-py >=1.0
+    - markdown-it-py >=1.0.0
     - mdit-py-plugins
 
 test:
   imports:
     - jupytext
+  requires:
+    - pip
   commands:
+    - pip check
     - jupytext --help
     - test -f ${PREFIX}/share/jupyter/nbextensions/jupytext/index.js                                              # [unix]
     - test -f ${PREFIX}/share/jupyter/labextensions/jupyterlab-jupytext/package.json                              # [unix]
@@ -45,6 +50,7 @@ test:
 about:
   home: https://github.com/mwouts/jupytext
   doc_url: https://github.com/mwouts/jupytext/blob/master/README.md
+  dev_url: https://github.com/mwouts/jupytext
   license: MIT
   license_family: MIT
   license_file: LICENSE
