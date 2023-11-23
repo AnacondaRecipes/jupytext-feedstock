@@ -14,7 +14,9 @@ build:
   entry_points:
     - jupytext = jupytext.cli:jupytext
   skip: true # [py<36 or s390x]
-  script: BUILD_JUPYTERLAB_EXTENSION=1 {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
+  script_env:
+    - BUILD_JUPYTERLAB_EXTENSION=1
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
 
 requirements:
   host:
