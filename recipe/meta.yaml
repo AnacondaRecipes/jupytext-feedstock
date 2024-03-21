@@ -13,28 +13,27 @@ build:
   number: 0
   entry_points:
     - jupytext = jupytext.cli:jupytext
-  skip: true # [py<36 or s390x]
-  script_env:
-    - BUILD_JUPYTERLAB_EXTENSION=1
+    - jupytext-config = jupytext_config.__main__:main
+  skip: true # [py<38 or s390x]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
 
 requirements:
   host:
     - python
     - pip
-    - python
-    - nodejs 18.16.0
-    - jupyter-packaging
-    - jupyterlab >=3.0,<4.0
     - setuptools
     - wheel
+    - hatchling >=1.5.0
+    - hatch-jupyter-builder >=0.5
+    - jupyterlab >=4
   run:
     - python
     - nbformat
+    - mdit-py-plugins
+    - markdown-it-py >=1.0.0
+    - packaging
     - pyyaml
     - toml
-    - markdown-it-py >=1.0.0
-    - mdit-py-plugins
 
 test:
   imports:
