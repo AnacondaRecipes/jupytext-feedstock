@@ -28,7 +28,7 @@ requirements:
     - python
     - nbformat
     - mdit-py-plugins
-    - markdown-it-py >=1.0.0
+    - markdown-it-py >=1.0
     - packaging
     - pyyaml
     - toml
