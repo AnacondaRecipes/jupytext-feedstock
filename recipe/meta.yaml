@@ -10,7 +10,7 @@ source:
   sha256: 68c7b68685e870e80e60fda8286fbd6269e9c74dc1df4316df6fe46eabc94c99
 
 build:
-  number: 0
+  number: 1
   entry_points:
     - jupytext = jupytext.cli:jupytext
     - jupytext-config = jupytext_config.__main__:main
