@@ -1,5 +1,5 @@
 {% set name = "jupytext" %}
-{% set version = "1.16.1" %}
+{% set version = "1.16.7" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 68c7b68685e870e80e60fda8286fbd6269e9c74dc1df4316df6fe46eabc94c99
+  sha256: fc4e97f0890e22062c4ef10313c7ca960b07b3767246a1fef7585888cc2afe5d
 
 build:
-  number: 1
+  number: 0
   entry_points:
     - jupytext = jupytext.cli:jupytext
     - jupytext-config = jupytext_config.__main__:main
@@ -30,7 +30,7 @@ requirements:
     - markdown-it-py >=1.0
     - packaging
     - pyyaml
-    - toml
+    - tomli # [py<311]
 
 test:
   imports:
