@@ -31,6 +31,7 @@ requirements:
     - pyyaml
     - tomli # [py<311]
 
+# Different Assertion errors and not found fixtures
 {% set SKIP_TEST_LIST = [
     "test_force_comment_using_contents_manager",
     "test_multiline_python_magic",
@@ -49,9 +50,7 @@ requirements:
     "test_cm_paired_paths",
     "test_paired_notebook_ipynb_root_scripts_in_folder_806",
     "test_no_metadata_when_py_is_pep8",
-    "test_cell_id_is_not_random",
-    "xxxxxxxxx",
-    "xxxxxxxxx"
+    "test_cell_id_is_not_random"
 ] %}
 
 test:
