@@ -1,20 +1,41 @@
 {% set name = "jupytext" %}
-{% set version = "1.18.1" %}
+{% set version = "1.19.3" %}
+{% set SKIP_TEST_LIST = [
+  "test_force_comment_using_contents_manager",
+  "test_multiline_python_magic",
+  "test_configure_magic",
+  "test_guess_format_light",
+  "test_guess_format_percent",
+  "test_guess_format_sphinx",
+  "test_configuration_examples_from_documentation",
+  "test_metadata_and_cell_to_header",
+  "test_metadata_and_cell_to_header2",
+  "test_multiline_metadata",
+  "test_header_to_html_comment",
+  "test_triple_backticks_in_code_cell",
+  "test_triple_backticks_in_code_cell_myst",
+  "test_alternate_tree_four_five_backticks",
+  "test_cm_paired_paths",
+  "test_paired_notebook_ipynb_root_scripts_in_folder_806",
+  "test_no_metadata_when_py_is_pep8",
+  "test_cell_id_is_not_random"
+] %}
 
+# Different Assertion errors and not found fixtures
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5c0962ca8d222db45cbe1848b4805dbbe3ddb957603fc96651b6cd7fd403fafb
+  sha256: 713c3ed4441afe0f31474d28ea2e6b61a268c04c40fd78e5ccfd7f7ac9e9f766
 
 build:
   number: 0
   entry_points:
     - jupytext = jupytext.cli:jupytext
     - jupytext-config = jupytext_config.__main__:main
-  skip: true # [py<39]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
 
 requirements:
@@ -22,6 +43,8 @@ requirements:
     - python
     - pip
     - hatchling >=1.5.0
+    - hatch-jupyter-builder >=0.5
+    - jupyterlab >=4
   run:
     - python
     - nbformat
@@ -29,29 +52,7 @@ requirements:
     - markdown-it-py >=1.0
     - packaging
     - pyyaml
-    - tomli # [py<311]
-
-# Different Assertion errors and not found fixtures
-{% set SKIP_TEST_LIST = [
-    "test_force_comment_using_contents_manager",
-    "test_multiline_python_magic",
-    "test_configure_magic",
-    "test_guess_format_light",
-    "test_guess_format_percent",
-    "test_guess_format_sphinx",
-    "test_configuration_examples_from_documentation",
-    "test_metadata_and_cell_to_header",
-    "test_metadata_and_cell_to_header2",
-    "test_multiline_metadata",
-    "test_header_to_html_comment",
-    "test_triple_backticks_in_code_cell",
-    "test_triple_backticks_in_code_cell_myst",
-    "test_alternate_tree_four_five_backticks",
-    "test_cm_paired_paths",
-    "test_paired_notebook_ipynb_root_scripts_in_folder_806",
-    "test_no_metadata_when_py_is_pep8",
-    "test_cell_id_is_not_random"
-] %}
+    - tomli  # [py<311]
 
 test:
   source_files:
@@ -93,8 +94,8 @@ test:
     - jupytext --help
     - jupytext-config --help
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - test -f ${PREFIX}/share/jupyter/labextensions/jupyterlab-jupytext/package.json                        # [unix]
-    - if not exist "%PREFIX%\share\jupyter\labextensions\jupyterlab-jupytext\package.json" exit 1           # [win]
+    - test -f ${PREFIX}/share/jupyter/labextensions/jupyterlab-jupytext/package.json  # [unix]
+    - if not exist "%PREFIX%\share\jupyter\labextensions\jupyterlab-jupytext\package.json" exit 1  # [win]
     - pytest -ra -vv --tb=short tests -k "not slow and not ({{ SKIP_TEST_LIST | join(' or ') }})"
 
 about:
@@ -113,6 +114,16 @@ about:
     And refactor your notebooks encoded as scripts in your favorite IDE.
 
     Jupytext is available directly in Jupyter Notebook and JupyterLab, and also on the command line.
+
+
+
+
+
+
+
+
+
+
 
 extra:
   recipe-maintainers:
