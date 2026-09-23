@@ -1,5 +1,41 @@
 {% set name = "jupytext" %}
 {% set version = "1.19.5" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 605026446d605aa54fd7f7fc69df6ae51c7a46053d4cebf05afdc64d66de3df0
+
+build:
+  number: 0
+  entry_points:
+    - jupytext = jupytext.cli:jupytext
+    - jupytext-config = jupytext_config.__main__:main
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
+  skip: true  # [py<39]
+
+# Upstream source - https://github.com/jupytext/jupytext/blob/v1.19.5/pyproject.toml
+requirements:
+  host:
+    - python
+    - pip
+    - hatchling >=1.5.0
+    - hatch-jupyter-builder >=0.5
+    - jupyterlab >=4
+    - jupyter-builder >=1.0.0
+  run:
+    - python
+    - nbformat
+    - mdit-py-plugins
+    - markdown-it-py >=1.0
+    - packaging
+    - pyyaml
+    - tomli  # [py<311]
+
+# Different Assertion errors and not found fixtures
 {% set SKIP_TEST_LIST = [
   "test_force_comment_using_contents_manager",
   "test_multiline_python_magic",
@@ -20,41 +56,6 @@
   "test_no_metadata_when_py_is_pep8",
   "test_cell_id_is_not_random"
 ] %}
-
-# Different Assertion errors and not found fixtures
-package:
-  name: {{ name }}
-  version: {{ version }}
-
-source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 605026446d605aa54fd7f7fc69df6ae51c7a46053d4cebf05afdc64d66de3df0
-
-build:
-  number: 0
-  entry_points:
-    - jupytext = jupytext.cli:jupytext
-    - jupytext-config = jupytext_config.__main__:main
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
-  skip: true  # [py<39]
-
-requirements:
-  host:
-    - python
-    - pip
-    - hatchling >=1.5.0
-    - hatch-jupyter-builder >=0.5
-    - jupyterlab >=4
-    - jupyter-builder >=1.0.0
-  run:
-    - python
-    - nbformat
-    - mdit-py-plugins
-    - markdown-it-py >=1.0
-    - packaging
-    - pyyaml
-    - tomli  # [py<311]
-
 test:
   source_files:
     - tests/unit
@@ -115,16 +116,6 @@ about:
     And refactor your notebooks encoded as scripts in your favorite IDE.
 
     Jupytext is available directly in Jupyter Notebook and JupyterLab, and also on the command line.
-
-
-
-
-
-
-
-
-
-
 
 extra:
   recipe-maintainers:
